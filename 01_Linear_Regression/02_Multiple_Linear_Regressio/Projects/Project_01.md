@@ -1,10 +1,8 @@
-# Multiple Linear Regression - California Housing Dataset
+# Multiple Linear Regression using California Housing Dataset
 
-## Overview
+## Project Overview
 
-* Worked with the California Housing Dataset from Scikit-Learn.
-* Built a Multiple Linear Regression model to predict house prices.
-* Performed data exploration, preprocessing, model training, and evaluation.
+In this project, I built a Multiple Linear Regression model using the California Housing Dataset from Scikit-Learn. The goal was to predict median house prices based on housing and demographic features.
 
 ---
 
@@ -12,52 +10,62 @@
 
 ### California Housing Dataset
 
+* Source: Scikit-Learn (`fetch_california_housing`)
 * Number of Samples: **20,640**
 * Number of Features: **8**
 * Problem Type: **Regression**
-* Target Variable: **Median House Value**
+* Target Variable: **Median House Value (Price)**
 
 ### Features
 
-1. MedInc – Median income
-2. HouseAge – Median house age
-3. AveRooms – Average number of rooms
-4. AveBedrms – Average number of bedrooms
-5. Population – Population of the block
-6. AveOccup – Average occupancy
-7. Latitude – Latitude location
-8. Longitude – Longitude location
-
-### Target
-
-* Price (Median House Value)
+* MedInc – Median Income
+* HouseAge – Median House Age
+* AveRooms – Average Rooms
+* AveBedrms – Average Bedrooms
+* Population – Population in the block
+* AveOccup – Average Occupancy
+* Latitude – Latitude Location
+* Longitude – Longitude Location
 
 ---
 
-## Data Exploration (EDA)
+## Data Preparation
 
-### Performed:
+### Created DataFrame
 
-* Created DataFrame using Pandas.
-* Checked dataset information using:
+Converted the dataset into a Pandas DataFrame for easier analysis.
 
-  * `head()`
-  * `info()`
-  * `describe()`
-* Verified missing values using:
+```python
+df = pd.DataFrame(dataset.data, columns=dataset.feature_names)
+df['Price'] = dataset.target
+```
 
-  * `isnull().sum()`
-* Generated correlation matrix using:
+### Explored Dataset
 
-  * `corr()`
-* Visualized feature relationships using:
+* Used `head()`, `info()`, and `describe()`
+* Checked missing values using `isnull().sum()`
+* Analyzed feature relationships using correlation matrix
 
-  * Heatmap (`sns.heatmap()`)
+---
+
+## Exploratory Data Analysis (EDA)
+
+### Correlation Analysis
+
+```python
+df.corr()
+```
+
+### Heatmap Visualization
+
+```python
+sns.heatmap(df.corr(), annot=True)
+```
 
 ### Key Learning
 
-* Correlation analysis helps understand relationships between features.
-* Heatmaps provide a visual representation of correlations.
+* Correlation helps identify relationships between features.
+* Heatmaps provide a visual representation of feature dependencies.
 
 ---
 
@@ -65,40 +73,42 @@
 
 ### Independent Features (X)
 
-All columns except target variable.
-
 ```python
-X = df.iloc[:,:-1]
+X = df.iloc[:, :-1]
 ```
 
 ### Dependent Feature (y)
 
 ```python
-y = df.iloc[:,-1]
+y = df.iloc[:, -1]
 ```
 
 ---
 
 ## Train-Test Split
 
-Used train-test split to separate training and testing data.
-
 ```python
+from sklearn.model_selection import train_test_split
+
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.33, random_state=42
+    X, y,
+    test_size=0.33,
+    random_state=42
 )
 ```
 
-### Key Learning
+### Learning
 
 * Training data is used to train the model.
 * Testing data is used to evaluate model performance.
 
 ---
 
-## Standardization
+## Feature Scaling (Standardization)
 
-Used StandardScaler to scale features.
+### Why Standardization?
+
+Features have different scales. Standardization brings them to a common scale and improves model performance.
 
 ```python
 from sklearn.preprocessing import StandardScaler
@@ -109,12 +119,11 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 ```
 
-### Key Learning
+### Important Concept
 
-* Features may have different ranges.
-* Standardization brings all features to a common scale.
-* Fit scaler on training data only.
-* Transform both training and testing data.
+* `fit()` learns mean and standard deviation from training data.
+* `transform()` applies scaling.
+* Always fit on training data only to avoid data leakage.
 
 ---
 
@@ -126,14 +135,13 @@ X_test = scaler.transform(X_test)
 from sklearn.linear_model import LinearRegression
 
 reg = LinearRegression()
-
 reg.fit(X_train, y_train)
 ```
 
-### Key Learning
+### Learning
 
 * `fit()` trains the model.
-* Model learns relationships between features and target variable.
+* The model learns coefficients and intercept values.
 
 ---
 
@@ -145,7 +153,7 @@ reg.fit(X_train, y_train)
 reg.coef_
 ```
 
-* Represent the effect of each feature on house price.
+* Represent the effect of each feature on house prices.
 
 ### Intercept
 
@@ -159,15 +167,13 @@ reg.intercept_
 
 ## Predictions
 
-Generated predictions on test data.
-
 ```python
 y_pred = reg.predict(X_test)
 ```
 
-### Key Learning
+### Learning
 
-* `predict()` uses the trained model to estimate house prices.
+* `predict()` generates house price predictions for unseen data.
 
 ---
 
@@ -179,7 +185,7 @@ y_pred = reg.predict(X_test)
 mean_absolute_error(y_test, y_pred)
 ```
 
-* Average absolute difference between actual and predicted values.
+Measures average prediction error.
 
 ### Mean Squared Error (MSE)
 
@@ -187,7 +193,7 @@ mean_absolute_error(y_test, y_pred)
 mean_squared_error(y_test, y_pred)
 ```
 
-* Average squared prediction error.
+Penalizes larger errors more heavily.
 
 ### Root Mean Squared Error (RMSE)
 
@@ -195,7 +201,7 @@ mean_squared_error(y_test, y_pred)
 np.sqrt(mse)
 ```
 
-* Error expressed in the original unit.
+Error expressed in original units.
 
 ### R² Score
 
@@ -203,56 +209,82 @@ np.sqrt(mse)
 r2_score(y_test, y_pred)
 ```
 
-* Measures how well the model explains the variance in the target variable.
+Measures how well the model explains the variance in the data.
+
+### Adjusted R²
+
+Accounts for the number of features used in the model.
 
 ---
 
 ## Residual Analysis
 
-### Residuals
+### Residual Calculation
 
 ```python
 residuals = y_pred - y_test
 ```
 
-### Visualizations
+### Visualization
 
-* KDE Plot of residuals
-* Residual vs Prediction Scatter Plot
+```python
+sns.displot(residuals, kind="kde")
+```
 
-### Key Learning
+```python
+plt.scatter(y_pred, residuals)
+```
+
+### Learning
 
 * Residuals should ideally be normally distributed.
-* Randomly scattered residuals indicate a better model fit.
+* Randomly scattered residuals indicate a good model fit.
 
 ---
 
-## Data Visualization
+## Pickling (Model Serialization)
 
-### Used:
+### What is Pickling?
 
-* Heatmap
-* Scatter Plot
-* KDE Plot
+Pickling is the process of saving a trained machine learning model into a binary file so it can be reused without retraining.
 
-### Purpose:
+### Save Model
 
-* Understand feature relationships.
-* Evaluate prediction quality.
-* Analyze model errors.
+```python
+import pickle
+
+pickle.dump(reg, open('house_price.pkl', 'wb'))
+```
+
+### Load Model
+
+```python
+model = pickle.load(open('house_price.pkl', 'rb'))
+```
+
+### Make Predictions
+
+```python
+model.predict(X_test)
+```
+
+### Learning
+
+* Saves training time.
+* Used during model deployment.
+* Enables model reuse in production environments.
 
 ---
 
 ## Concepts Learned
 
-* Multiple Linear Regression
 * California Housing Dataset
-* Exploratory Data Analysis (EDA)
-* Correlation Matrix
-* Heatmaps
+* Multiple Linear Regression
 * Train-Test Split
 * Standardization
 * StandardScaler
+* Correlation Matrix
+* Heatmap Visualization
 * Model Training
 * Coefficients and Intercept
 * Predictions
@@ -260,12 +292,13 @@ residuals = y_pred - y_test
 * MSE
 * RMSE
 * R² Score
+* Adjusted R²
 * Residual Analysis
-* Model Evaluation
+* Pickling
+* Model Serialization
 
 ---
 
 ## Final Takeaway
 
-Multiple Linear Regression uses multiple input features to predict a continuous target variable. Proper preprocessing, feature scaling, model evaluation, and residual analysis are essential steps in building a reliable regression model.
-
+Multiple Linear Regression uses multiple input features to predict a continuous target variable. Proper preprocessing, standardization, model evaluation, residual analysis, and model serialization are important steps in building and deploying a reliable machine learning model.
