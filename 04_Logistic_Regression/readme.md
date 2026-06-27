@@ -569,111 +569,136 @@ Softmax Function.
 ✔ Class Weight
 
 ---
+# 📚 Detailed Learning Outcomes
 
-📚 Detailed Learning Outcomes
-1. The Mathematical Intuition Behind Logistic Regression
+## 1. The Mathematical Intuition Behind Logistic Regression
 
 Logistic Regression is a supervised machine learning algorithm used for classification problems. Unlike Linear Regression, which predicts continuous numerical values, Logistic Regression predicts the probability that an observation belongs to a particular class.
 
 It first computes a weighted sum of the input features:
 
+```text
 z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
+```
 
 Instead of using this value directly as the prediction, Logistic Regression passes it through the Sigmoid Function, which converts any real number into a probability between 0 and 1.
 
-2. Why Logistic Regression is Suitable for Classification Instead of Linear Regression
+---
+
+## 2. Why Logistic Regression is Suitable for Classification Instead of Linear Regression
 
 Linear Regression predicts values that can range from negative infinity to positive infinity, making it unsuitable for classification tasks where predictions should represent probabilities.
 
 For example, a Linear Regression model may predict:
 
+```text
 1.42
 -0.65
 2.81
+```
 
 These values cannot be interpreted as probabilities.
 
 Logistic Regression solves this issue by using the Sigmoid Function, ensuring that predictions always lie between 0 and 1. A decision threshold (commonly 0.5) is then used to classify observations into different classes.
 
-3. How the Sigmoid Function Converts Linear Outputs into Probabilities
+---
+
+## 3. How the Sigmoid Function Converts Linear Outputs into Probabilities
 
 The Sigmoid Function transforms any real-valued input into a probability.
 
 Formula:
 
+```text
 P(y=1) = 1 / (1 + e^(-z))
+```
 
 Properties:
 
-Output ranges between 0 and 1.
-Large positive values become probabilities close to 1.
-Large negative values become probabilities close to 0.
-Values near zero produce probabilities around 0.5.
+* Output ranges between 0 and 1.
+* Large positive values become probabilities close to 1.
+* Large negative values become probabilities close to 0.
+* Values near zero produce probabilities around 0.5.
 
 This allows Logistic Regression to estimate the likelihood that a sample belongs to the positive class.
 
-4. How to Train and Evaluate a Classification Model Using Scikit-Learn
+---
+
+## 4. How to Train and Evaluate a Classification Model Using Scikit-Learn
 
 The complete machine learning workflow includes:
 
-Loading the dataset.
-Splitting the dataset into training and testing sets.
-Creating a Logistic Regression model.
-Training the model using the training data.
-Making predictions on unseen data.
-Evaluating performance using classification metrics.
+* Loading the dataset.
+* Splitting the dataset into training and testing sets.
+* Creating a Logistic Regression model.
+* Training the model using the training data.
+* Making predictions on unseen data.
+* Evaluating performance using classification metrics.
 
 Typical workflow:
 
+```python
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
+```
 
 Evaluation metrics include:
 
-Accuracy
-Precision
-Recall
-F1 Score
-Confusion Matrix
-ROC-AUC Score
-5. The Importance of Splitting Data into Training and Testing Sets
+* Accuracy
+* Precision
+* Recall
+* F1 Score
+* Confusion Matrix
+* ROC-AUC Score
+
+---
+
+## 5. The Importance of Splitting Data into Training and Testing Sets
 
 A model should be evaluated on data that it has never seen before.
 
 The dataset is divided into:
 
-Training Set (used for learning patterns)
-Testing Set (used for evaluating performance)
+* Training Set (used for learning patterns)
+* Testing Set (used for evaluating performance)
 
 A common split is:
 
+```text
 75% Training
 25% Testing
+```
 
 Benefits include:
 
-Preventing overfitting.
-Measuring generalization performance.
-Simulating real-world predictions.
-6. Why Hyperparameter Tuning Improves Model Performance
+* Preventing overfitting.
+* Measuring generalization performance.
+* Simulating real-world predictions.
+
+---
+
+## 6. Why Hyperparameter Tuning Improves Model Performance
 
 Hyperparameters control the learning process of the algorithm and must be chosen before training.
 
 Examples include:
 
-C
-penalty
-solver
-class_weight
+* C
+* penalty
+* solver
+* class_weight
 
 Instead of guessing the best values, GridSearchCV systematically tests multiple combinations to identify the optimal configuration using cross-validation.
 
 Benefits:
 
-Better predictive performance.
-Reduced overfitting.
-Improved model stability.
-7. How Cross Validation Provides a More Reliable Estimate of Model Performance
+* Better predictive performance.
+* Reduced overfitting.
+* Improved model stability.
+
+---
+
+## 7. How Cross Validation Provides a More Reliable Estimate of Model Performance
 
 A single train-test split may produce biased results depending on the selected samples.
 
@@ -681,40 +706,50 @@ Cross Validation divides the dataset into multiple folds.
 
 Example (5-Fold Cross Validation):
 
-Fold 1 → Validation
-Fold 2 → Validation
-Fold 3 → Validation
-Fold 4 → Validation
-Fold 5 → Validation
+* Fold 1 → Validation
+* Fold 2 → Validation
+* Fold 3 → Validation
+* Fold 4 → Validation
+* Fold 5 → Validation
 
 Each fold serves as the validation set once, and the average performance is reported.
 
 Advantages:
 
-Uses all data efficiently.
-Produces a more reliable evaluation.
-Reduces dependence on one random split.
-8. Why Accuracy Alone Can Be Misleading for Imbalanced Datasets
+* Uses all data efficiently.
+* Produces a more reliable evaluation.
+* Reduces dependence on one random split.
+
+---
+
+## 8. Why Accuracy Alone Can Be Misleading for Imbalanced Datasets
 
 Consider a fraud detection dataset:
 
+```text
 990 Legitimate Transactions
 10 Fraudulent Transactions
+```
 
 If the model predicts every transaction as legitimate, the accuracy is:
 
+```text
 99%
+```
 
 Despite this high accuracy, the model completely fails to detect fraud.
 
 Therefore, for imbalanced datasets, metrics like Precision, Recall, and F1 Score provide a much better evaluation than Accuracy alone.
 
-9. How Precision, Recall, and F1 Score Provide Better Insights
-Precision
+---
+
+## 9. How Precision, Recall, and F1 Score Provide Better Insights
+
+### Precision
 
 Precision answers:
 
-Out of all predicted positive samples, how many were actually positive?
+> Out of all predicted positive samples, how many were actually positive?
 
 High Precision indicates few False Positives.
 
@@ -722,13 +757,16 @@ Useful when False Positives are expensive.
 
 Examples:
 
-Spam detection
-Medical diagnosis
-Recall
+* Spam detection
+* Medical diagnosis
+
+---
+
+### Recall
 
 Recall answers:
 
-Out of all actual positive samples, how many were correctly identified?
+> Out of all actual positive samples, how many were correctly identified?
 
 High Recall indicates few False Negatives.
 
@@ -736,39 +774,46 @@ Useful when missing positive cases is costly.
 
 Examples:
 
-Cancer detection
-Fraud detection
-F1 Score
+* Cancer detection
+* Fraud detection
+
+---
+
+### F1 Score
 
 The F1 Score combines Precision and Recall into a single metric using their harmonic mean.
 
 It is especially useful when dealing with imbalanced datasets because it balances both types of errors.
 
-10. How to Interpret a Confusion Matrix
+---
+
+## 10. How to Interpret a Confusion Matrix
 
 A Confusion Matrix summarizes prediction results.
 
 It consists of:
 
-True Positive (TP)
-True Negative (TN)
-False Positive (FP)
-False Negative (FN)
+* True Positive (TP)
+* True Negative (TN)
+* False Positive (FP)
+* False Negative (FN)
 
 It helps identify:
 
-Correct predictions.
-Incorrect predictions.
-Types of classification errors.
+* Correct predictions.
+* Incorrect predictions.
+* Types of classification errors.
 
 Many evaluation metrics are derived directly from the Confusion Matrix.
 
-11. How ROC Curves and AUC Scores Measure Classifier Performance
+---
+
+## 11. How ROC Curves and AUC Scores Measure Classifier Performance
 
 The ROC Curve plots:
 
-True Positive Rate (Recall)
-False Positive Rate
+* True Positive Rate (Recall)
+* False Positive Rate
 
 for different classification thresholds.
 
@@ -778,76 +823,92 @@ The Area Under the Curve (AUC) summarizes this performance.
 
 Interpretation:
 
+```text
 AUC = 1.0  → Perfect Classifier
 AUC > 0.9 → Excellent
 AUC > 0.8 → Good
 AUC = 0.5 → Random Guess
+```
 
 Higher AUC values indicate better discrimination between classes.
 
-12. How Adjusting Classification Thresholds Affects Predictions
+---
+
+## 12. How Adjusting Classification Thresholds Affects Predictions
 
 The default classification threshold is usually:
 
+```text
 0.5
+```
 
 Changing this threshold changes the balance between Precision and Recall.
 
 Lower Threshold:
 
-Higher Recall
-Lower Precision
+* Higher Recall
+* Lower Precision
 
 Higher Threshold:
 
-Higher Precision
-Lower Recall
+* Higher Precision
+* Lower Recall
 
 Threshold selection depends on the application's requirements.
 
-13. The Difference Between Binary and Multiclass Logistic Regression
-Binary Classification
+---
+
+## 13. The Difference Between Binary and Multiclass Logistic Regression
+
+### Binary Classification
 
 Predicts between two classes.
 
 Examples:
 
-Spam vs Not Spam
-Fraud vs Not Fraud
-Pass vs Fail
-Multiclass Classification
+* Spam vs Not Spam
+* Fraud vs Not Fraud
+* Pass vs Fail
+
+---
+
+### Multiclass Classification
 
 Predicts among more than two classes.
 
 Examples:
 
-Iris flower species
-Handwritten digit recognition
-Animal classification
+* Iris flower species
+* Handwritten digit recognition
+* Animal classification
 
 Scikit-Learn supports multiclass classification using strategies such as:
 
-One-vs-Rest (OvR)
-Multinomial Logistic Regression (Softmax)
-14. Practical Experience Implementing Logistic Regression on Real-World Datasets
+* One-vs-Rest (OvR)
+* Multinomial Logistic Regression (Softmax)
+
+---
+
+## 14. Practical Experience Implementing Logistic Regression on Real-World Datasets
 
 Throughout these notebooks, I gained practical experience in building complete machine learning pipelines.
 
 This included:
 
-Loading datasets.
-Cleaning and preparing data.
-Splitting data into training and testing sets.
-Training Logistic Regression models.
-Performing hyperparameter tuning.
-Applying Cross Validation.
-Handling imbalanced datasets using class weights.
-Evaluating models using multiple performance metrics.
-Plotting ROC Curves.
-Comparing Logistic Regression with Dummy Classifiers.
-Building both Binary and Multiclass classification models.
+* Loading datasets.
+* Cleaning and preparing data.
+* Splitting data into training and testing sets.
+* Training Logistic Regression models.
+* Performing hyperparameter tuning.
+* Applying Cross Validation.
+* Handling imbalanced datasets using class weights.
+* Evaluating models using multiple performance metrics.
+* Plotting ROC Curves.
+* Comparing Logistic Regression with Dummy Classifiers.
+* Building both Binary and Multiclass classification models.
 
 These hands-on implementations strengthened both my theoretical understanding and practical skills in applying Logistic Regression to real-world classification problems.
+
 
 ---
 
