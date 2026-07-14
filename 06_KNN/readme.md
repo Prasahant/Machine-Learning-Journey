@@ -18,7 +18,11 @@ K-Nearest Neighbors (KNN) is a **Supervised Machine Learning** algorithm used fo
 
 Unlike many machine learning algorithms, KNN is a **Lazy Learning** algorithm because it does not build a model during training. Instead, it stores the training data and predicts the output based on the nearest data points.
 
-![Uploading Screenshot 2026-07-14 111005.png…]()
+## 📷 Project Preview
+
+<p align="center">
+  <img src="images/knn_banner.png" alt="KNN Project Preview" width="900">
+</p>
 
 ---
 
