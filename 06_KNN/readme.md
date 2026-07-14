@@ -29,6 +29,8 @@ Unlike many machine learning algorithms, KNN is a **Lazy Learning** algorithm be
 │
 ├── KNN_Classification.ipynb
 ├── KNN_Regression.ipynb
+├── images/
+│   └── knn_banner.png
 └── README.md
 ```
 
