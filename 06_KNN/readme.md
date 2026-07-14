@@ -191,10 +191,6 @@ Covered
 
 # 📍 Variants of KNN
 
-- Standard KNN
-- Weighted KNN
-- Distance Weighted KNN
-- Radius Neighbors
 - KD Tree
 - Ball Tree
 - Brute Force Search
